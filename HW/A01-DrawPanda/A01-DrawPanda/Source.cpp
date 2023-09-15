@@ -86,8 +86,40 @@ void display(void)
     glLoadIdentity();
 
     // draw panda here
-    drawFilledCircle(1, 0, 0, 5, 5, 2);
-    drawWireframeCircle(0.5, 0.5, 0, 2, 2, 1, 5);
+
+    // body shapes
+    drawFilledCircle(0, 0, 0, 5, 2.5, 2.1);
+    drawFilledCircle(1, 1, 1, 5, 2.5, 2);
+
+    drawFilledCircle(0, 0, 0, 5, 6.5, 2.4);
+    drawFilledCircle(1, 1, 1, 5, 6.5, 2.2);
+
+    // arms and legs
+    drawFilledCircle(0, 0, 0, 3, 1, 0.8);
+    drawFilledCircle(0, 0, 0, 7, 1, 0.8);
+
+    drawFilledCircle(0, 0, 0, 3, 3.2, 0.7);
+    drawFilledCircle(0, 0, 0, 7, 3.2, 0.7);
+
+    // ears
+    drawFilledCircle(0.3, 0.3, 0.3, 2.9, 8.5, 0.8);
+    drawFilledCircle(0.3, 0.3, 0.3, 7.1, 8.5, 0.8);
+
+    drawFilledCircle(1, 0.7, 0.6, 2.95, 8.45, 0.6);
+    drawFilledCircle(1, 0.7, 0.6, 7.05, 8.45, 0.6);
+
+    // facial features
+    drawFilledCircle(0.3, 0.3, 0.3, 3.9, 6.5, 1);
+    drawFilledCircle(0.3, 0.3, 0.3, 6.1, 6.5, 1);
+
+    drawFilledCircle(0, 0, 0, 4, 6.4, 0.7);
+    drawFilledCircle(0, 0, 0, 6.0, 6.4, 0.7);
+
+    drawFilledCircle(1, 1, 1, 3.7, 6.8, 0.1);
+    drawFilledCircle(1, 1, 1, 6.3, 6.8, 0.1);
+
+    drawFilledCircle(1, 0.7, 0.6, 3.7, 5.3, 0.3);
+    drawFilledCircle(1, 0.7, 0.6, 6.3, 5.3, 0.3);
 
 
     glutSwapBuffers();
