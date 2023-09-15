@@ -179,7 +179,7 @@ int main(int argc, char* argv[])
     glutInitWindowSize((int)width, (int)height);
 
     // create the window with a title
-    glutCreateWindow("A01 Panda");
+    glutCreateWindow("E03 Christmas Tree");
 
     /* --- register callbacks with GLUT --- */
 
