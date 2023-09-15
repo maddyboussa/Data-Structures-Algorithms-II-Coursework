@@ -1,75 +1,94 @@
 // Course:			IGME 309
 // Student Name:	Madeline Boussa
-// Assignment 91
+// Assignment:      01
 
 #ifdef __APPLE__
 #include <GLUT/glut.h> // include glut for Mac
 #else
 #include <GL/freeglut.h> //include glut for Windows
 #endif
+#include <math.h>
 
-
+// establish pi as a constant
+const float pi = 3.1415926;
 
 // the window's width and height
 int width, height;
 
-// the three vertices of a triangle
-float v0[2];
-float v1[2];
-float v2[2];
+// stores number of circle vertices
+int numVertices = 100;
 
-
-void createTriangle()
-{
-    // initialize the triangle's vertices
-    v0[0] = 0.0f;
-    v0[1] = 0.0f;
-    v1[0] = 5.0f;
-    v1[1] = 0.0f;
-    v2[0] = 2.5f;
-    v2[1] = 3.0f;
-}
 
 void init(void)
 {
     // initialize the size of the window
-    width = 600;
-    height = 600;
-    createTriangle();
+    width = 800;
+    height = 800;
+}
+
+void drawFilledCircle(float red, float green, float blue, float center_x, float center_y, float radius)
+{
+    // set drawing color
+    glColor3f(red, blue, green);
+
+    glBegin(GL_POLYGON);
+    
+    // for every vertex on the circle, calulate the angle (t) of its position relative to the center
+    for (unsigned int i = 0; i < numVertices; i++)
+    {
+        // calculate angle (t)
+        float t = 2.0f * pi * float(i) / numVertices;
+
+        // using this t value, draw the correlating vertex
+        float vx = center_x + radius * cos(t);
+        float vy = center_y + radius * sin(t);
+        glVertex2f(vx, vy);
+    }
+
+    glEnd();
+}
+
+void drawWireframeCircle(float red, float green, float blue, float center_x, float center_y, float radius, float lineWidth)
+{
+    // set drawing color
+    glColor3f(red, blue, green);
+
+    // set line width
+    glLineWidth(lineWidth);
+
+    glBegin(GL_LINE_LOOP);
+
+    // for every vertex on the circle, calulate the angle (t) of its position relative to the center
+    for (unsigned int i = 0; i < numVertices; i++)
+    {
+        // calculate angle (t)
+        float t = 2.0f * pi * float(i) / float(numVertices);
+
+        // using this t value, draw the correlating vertex
+        float vx = center_x + radius * cos(t);
+        float vy = center_y + radius * sin(t);
+        glVertex2f(vx, vy);
+    }
+
+    glEnd();
 }
 
 // called when the GL context need to be rendered
 void display(void)
 {
-    // clear the screen to white, which is the background color
-    glClearColor(1.0, 1.0, 1.0, 0.0);
+    // light blue background color
+    glClearColor(0.7, 0.8, 0.9, 1.0);
 
     // clear the buffer stored for drawing
     glClear(GL_COLOR_BUFFER_BIT);
 
-
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
 
-    // specify the color for drawing
-    glColor3f(1.0, 0.0, 0.0);
+    // draw panda here
+    drawFilledCircle(1, 0, 0, 5, 5, 2);
+    drawWireframeCircle(0.5, 0.5, 0, 2, 2, 1, 5);
 
-    // this is immedidate mode of OpenGL usded prior to OpenGL 3.0
-    glBegin(GL_TRIANGLES);
-    glVertex2fv(v0);
-    glVertex2fv(v1);
-    glVertex2fv(v2);
-    glEnd();
-
-    // specify the color for new drawing
-    glColor3f(0.0, 0.0, 1.0);
-
-    // draw the origin of the canvas
-    glPointSize(30.0f);
-    glBegin(GL_POINTS);
-    glVertex2f(0.0f, 0.0f);
-    glEnd();
-    glPointSize(1.0f);
 
     glutSwapBuffers();
 }
@@ -85,11 +104,9 @@ void reshape(int w, int h)
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     gluOrtho2D(0.0, 10.0, 0.0, 10.0);
-    //gluOrtho2D(-5.0, 5.0, -5.0, 5.0);
 
     /* tell OpenGL to use the whole window for drawing */
     glViewport(0, 0, (GLsizei)width, (GLsizei)height);
-    //glViewport((GLsizei) width/2, (GLsizei) height/2, (GLsizei) width, (GLsizei) height);
 
     glutPostRedisplay();
 }
@@ -112,7 +129,7 @@ int main(int argc, char* argv[])
     glutInitWindowSize((int)width, (int)height);
 
     // create the window with a title
-    glutCreateWindow("First OpenGL Program");
+    glutCreateWindow("A01 Panda");
 
     /* --- register callbacks with GLUT --- */
 
