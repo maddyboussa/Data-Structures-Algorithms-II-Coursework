@@ -8,6 +8,9 @@
 #include <GL/freeglut.h> //include glut for Windows
 #endif
 #include <math.h>
+#include <iostream>
+
+using namespace std;
 
 // establish pi as a constant
 const float pi = 3.1415926;
@@ -16,7 +19,7 @@ const float pi = 3.1415926;
 int width, height;
 
 // stores number of circle vertices
-int numVertices = 100;
+int numVertices = 50;
 
 
 void init(void)
@@ -26,6 +29,7 @@ void init(void)
     height = 800;
 }
 
+// draws a solid circle with the given parameters
 void drawFilledCircle(float red, float green, float blue, float center_x, float center_y, float radius)
 {
     // set drawing color
@@ -48,6 +52,7 @@ void drawFilledCircle(float red, float green, float blue, float center_x, float 
     glEnd();
 }
 
+// draws a wire circle with the given parameters
 void drawWireframeCircle(float red, float green, float blue, float center_x, float center_y, float radius, float lineWidth)
 {
     // set drawing color
@@ -71,6 +76,46 @@ void drawWireframeCircle(float red, float green, float blue, float center_x, flo
     }
 
     glEnd();
+}
+
+// alters number of vertices based on keyboard input
+void keyboard(unsigned char key, int x, int y)
+{
+    // users can exit program with escape
+    if (key == 27) {
+        exit(0);
+    }
+
+    // increment vertices using plus (or equals) key
+    if (key == 43 || key == 61)
+    {
+        numVertices++;
+
+        // ensure vertices can never go over 100
+        if (numVertices > 100)
+        {
+            numVertices = 100;
+        }
+
+        glutPostRedisplay();
+    }
+
+    // decrement vertices using minus (or underscore) key
+    if (key == 45 || key == 95)
+    {
+        numVertices--;
+
+        // ensure vertices can never go below 3
+        if (numVertices < 3)
+        {
+            numVertices = 3;
+        }
+
+        glutPostRedisplay();
+    }
+
+    // print num vertices
+    cout << "# Vertices: " << numVertices << endl;
 }
 
 // called when the GL context need to be rendered
@@ -170,6 +215,9 @@ int main(int argc, char* argv[])
 
     //register function that draws in the window
     glutDisplayFunc(display);
+
+    // register keyboard function
+    glutKeyboardFunc(keyboard);
 
     //start the glut main loop
     glutMainLoop();
