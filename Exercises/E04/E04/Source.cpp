@@ -137,7 +137,10 @@ void update() {
 		// write the code below
 
 		// ball and bar collision
-		if (ballPos[1] - radius < barPos[1])
+		// checks y-value of ball is touching paddle, and the x-value is within the paddle's location
+		if (ballPos[1] - radius < barPos[1] 
+			&& ballPos[0] - radius <= barPos[0] + barSize / 2.0f
+			&& ballPos[0] + radius >= barPos[0] - barSize / 2.0f )
 		{
 			velocity_y = -velocity_y;
 		}
