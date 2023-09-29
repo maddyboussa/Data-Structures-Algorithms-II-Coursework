@@ -1,3 +1,3 @@
-# IGME-309
+# Data Structures & Algorithms II Coursework
 
-Notes and exercises from IGME 309.
+Notes, exercises, and more from DSAII
