@@ -9,6 +9,7 @@
 #endif
 
 #include <iostream>
+#include <vector>
 #include "PolyObject.h"
 
 using namespace std;
@@ -22,7 +23,14 @@ int rasterSize[] = { 800, 600 };
 //float v[2 * 3];
 //float color[3];
 
+// vector to store created polygons
+vector<PolyObject> completedPolygons;
+
 float mousePos[2];
+
+// stores in-progress polygon
+// instantiate first polygon object
+PolyObject poly1;
 
 void init(void)
 {
@@ -35,6 +43,17 @@ void init(void)
     // initialize color as red
     /*color[0] = 1.0f;
     color[1] = color[2] = 0.0f;*/
+
+    // instantiate initial polygon
+    poly1 = PolyObject();
+
+    // give polygon test valyes
+    poly1.addVertex(vec2(2.5f, 5.0f));
+    poly1.addVertex(vec2(0.0f, 4.0f));
+    poly1.addVertex(vec2(0.0f, 0.0f));
+    poly1.addVertex(vec2(5.0f, 0.0f));
+    poly1.addVertex(vec2(5.0f, 4.0f));
+    
 }
 
 // draws cursor (point) at mouse position
@@ -78,6 +97,9 @@ void display(void)
 
     // draw mouse cursor
     drawCursor();
+
+    // draw test polygon
+    poly1.draw();
 
     glutSwapBuffers();
 }
@@ -133,6 +155,10 @@ void keyboard(unsigned char key, int x, int y)
         exit(0);
         break;
     }
+
+    // if users press another keyboard key, finish polygon
+
+    // when polygon finished, add it to the completed list and instantiate a new polygon
 }
 
 void menu(int value)
@@ -189,7 +215,7 @@ int main(int argc, char* argv[])
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA);
     glutInitWindowSize(rasterSize[0], rasterSize[1]);
-    glutCreateWindow("Mouse Event - draw a triangle");
+    glutCreateWindow("Mouse Event - draw some polygons");
 
     glutReshapeFunc(reshape);
     glutDisplayFunc(display);
