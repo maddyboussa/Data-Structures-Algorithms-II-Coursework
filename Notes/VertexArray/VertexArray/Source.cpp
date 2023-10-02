@@ -1,4 +1,4 @@
-//This is an example demonstrating how to use Vertex rray method
+//This is an example demonstrating how to use Vertex array method
 // regarding the data format for vertices and indices, pelase refer to the lecture notes- L6_DrawMethods, Slide 8.
 
 #ifdef __APPLE__
