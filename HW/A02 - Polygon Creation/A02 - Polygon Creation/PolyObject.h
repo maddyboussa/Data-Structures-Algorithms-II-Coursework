@@ -21,5 +21,8 @@ public:
 	void setColor(vec3 p_color); // set the color of this polygon
 	unsigned int getVertNum(); // return the number of vertices
 	void draw(); // draw the polygon if it’s completed
-	void draw(vec2 p_mousePos); // draw the polygon if it’s being created
+	void draw(float* p_mousePos); // draw the polygon if it’s being created
+
+	// helper functions to convert from vectors to glfloats
+	float* vec2ToGLFloat(vec2 vectorToConvert);
 };

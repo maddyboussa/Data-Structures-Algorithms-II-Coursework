@@ -53,6 +53,8 @@ void init(void)
     poly1.addVertex(vec2(0.0f, 0.0f));
     poly1.addVertex(vec2(5.0f, 0.0f));
     poly1.addVertex(vec2(5.0f, 4.0f));
+
+    
     
 }
 
@@ -99,7 +101,8 @@ void display(void)
     drawCursor();
 
     // draw test polygon
-    poly1.draw();
+    poly1.setColor(vec3(0.5, 0.3, 0.122));
+    poly1.draw(mousePos);
 
     glutSwapBuffers();
 }
@@ -121,9 +124,6 @@ void mouse(int button, int state, int x, int y)
 {
     // alter number of vertices depending on mouse clicks
     if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN) {
-        // reset number of vertices if it is at triangle max
-        /*if (numOfVertices >= 3)
-            numOfVertices = 0;*/
 
         // get canvas mouse position based on os position
         mousePos[0] = (float)x / rasterSize[0] * canvasSize[0];
