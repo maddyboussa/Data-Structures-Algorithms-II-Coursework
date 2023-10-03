@@ -16,57 +16,21 @@ using namespace std;
 
 float canvasSize[] = { 10.0f, 10.0f };
 int rasterSize[] = { 800, 600 };
-
-// commenting out interactive triangle implementation
-// structure for storing 3 2D vertices of a triangle
-//int numOfVertices = 0;
-//float v[2 * 3];
-//float color[3];
-
-// vector to store created polygons
-vector<PolyObject> completedPolygons;
-
 float mousePos[2];
 
+// vector to store completed polygons
+vector<PolyObject> completedPolygons;
+
 // stores in-progress polygon
-// instantiate first polygon object
-PolyObject poly1;
+PolyObject activePoly;
 
 void init(void)
 {
-    // initialize vertex values as 0
-    /*for (int i = 0; i < 6; i++)
-        v[i] = 0.0f;*/
-
+    // initialize mouse position
     mousePos[0] = mousePos[1] = 0.0f;
 
-    // initialize color as red
-    /*color[0] = 1.0f;
-    color[1] = color[2] = 0.0f;*/
-
     // instantiate initial polygon
-    poly1 = PolyObject();
-
-    // give polygon test valyes
-    poly1.addVertex(vec2(2.5f, 5.0f));
-    poly1.addVertex(vec2(0.0f, 4.0f));
-    poly1.addVertex(vec2(0.0f, 0.0f));
-    poly1.addVertex(vec2(5.0f, 0.0f));
-    poly1.addVertex(vec2(5.0f, 4.0f));
-
-    
-    
-}
-
-// draws cursor (point) at mouse position
-void drawCursor()
-{
-    glColor3f(1.0f, 0.0f, 1.0f);
-    glPointSize(10.0f);
-    glBegin(GL_POINTS);
-    glVertex2fv(mousePos);
-    glEnd();
-    glPointSize(1.0f);
+    activePoly = PolyObject();
 }
 
 void display(void)
@@ -74,35 +38,17 @@ void display(void)
     // clear canvas
     glClearColor(1.0, 1.0, 1.0, 0.0);
     glClear(GL_COLOR_BUFFER_BIT);
-
-    // set drawing color to whatever current color is selected
-    //glColor3fv(color);
-
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
 
-    // draw triangle based on mouse clicks
-    /*if (numOfVertices > 0 && numOfVertices < 3) {
+    // draw active polygon
+    activePoly.draw(mousePos);
 
-        glBegin(GL_LINE_STRIP);
-        for (int i = 0; i < numOfVertices; i++)
-            glVertex2fv(v + i * 2);
-        glVertex2fv(mousePos);
-        glEnd();
+    // draw completed polygons
+    for (unsigned int i = 0; i < completedPolygons.size(); i++)
+    {
+        completedPolygons[i].draw();
     }
-    else if (numOfVertices == 3) {
-        glBegin(GL_TRIANGLES);
-        for (int i = 0; i < numOfVertices; i++)
-            glVertex2fv(v + i * 2);
-        glEnd();
-    }*/
-
-    // draw mouse cursor
-    drawCursor();
-
-    // draw test polygon
-    poly1.setColor(vec3(0.5, 0.3, 0.122));
-    poly1.draw(mousePos);
 
     glutSwapBuffers();
 }
@@ -129,11 +75,10 @@ void mouse(int button, int state, int x, int y)
         mousePos[0] = (float)x / rasterSize[0] * canvasSize[0];
         mousePos[1] = (float)(rasterSize[1] - y) / rasterSize[1] * canvasSize[1];
 
-        // set new vertex positions to mouse position
-        /*v[numOfVertices * 2 + 0] = mousePos[0];
-        v[numOfVertices * 2 + 1] = mousePos[1];*/
+        // on mouse click,
+        // add new vertex to the polygon at mouse position
+        activePoly.addVertex(vec2(mousePos[0], mousePos[1]));
 
-        //numOfVertices++;
         glutPostRedisplay();
     }
 }
@@ -150,48 +95,75 @@ void motion(int x, int y)
 
 void keyboard(unsigned char key, int x, int y)
 {
-    switch (key) {
-    case 27:
-        exit(0);
-        break;
+    switch (key)
+    {
+        case 27:
+            exit(0);
+            break;
+
+        // pressing enter will finish the polygon
+        case 13:
+            // when polygon finished, add it to the completed list
+            PolyObject tempPoly = activePoly;
+
+            completedPolygons.push_back(tempPoly);
+
+            // instantiate a new polygon to be active
+            PolyObject newPoly;
+            activePoly = newPoly;
+
+            break;
     }
-
-    // if users press another keyboard key, finish polygon
-
-    // when polygon finished, add it to the completed list and instantiate a new polygon
 }
 
 void menu(int value)
 {
     // menu states
-    //switch (value) {
-    //case 0: // clear
-    //    numOfVertices = 0;
-    //    glutPostRedisplay();
-    //    break;
-    //case 1: //exit
-    //    exit(0);
-    //case 2: // red
-    //    color[0] = 1.0f;
-    //    color[1] = 0.0f;
-    //    color[2] = 0.0f;
-    //    glutPostRedisplay();
-    //    break;
-    //case 3: // green
-    //    color[0] = 0.0f;
-    //    color[1] = 1.0f;
-    //    color[2] = 0.0f;
-    //    glutPostRedisplay();
-    //    break;
-    //case 4: // blue
-    //    color[0] = 0.0f;
-    //    color[1] = 0.0f;
-    //    color[2] = 1.0f;
-    //    glutPostRedisplay();
-    //    break;
-    //default:
-    //    break;
-    //}
+    switch (value) 
+    {
+        case 0: // clear
+            // clear vector of completed polygons
+            completedPolygons.clear();
+            glutPostRedisplay();
+            break;
+
+        case 1: //exit
+            exit(0);
+
+        // change colors
+        case 2: // red
+            activePoly.setColor(vec3(1, 0, 0));
+            glutPostRedisplay();
+            break;
+
+        case 3: // green
+            activePoly.setColor(vec3(0.451, 0.89, 0.455));
+            glutPostRedisplay();
+            break;
+
+        case 4: // blue
+            activePoly.setColor(vec3(0.451, 0.514, 0.89));
+            glutPostRedisplay();
+            break;
+
+        case 5: // purple
+            activePoly.setColor(vec3(0.463, 0.008, 0.639));
+            glutPostRedisplay();
+            break;
+
+        case 6: // yellow
+            activePoly.setColor(vec3(0.973, 1, 0));
+            glutPostRedisplay();
+            break;
+
+        case 7: // black
+            activePoly.setColor(vec3(0, 0, 0));
+            glutPostRedisplay();
+            break;
+
+        default:
+            break;
+    }
 }
 
 // creates interactable menu on right click
@@ -201,6 +173,9 @@ void createMenu()
     glutAddMenuEntry("Red", 2);
     glutAddMenuEntry("Green", 3);
     glutAddMenuEntry("Blue", 4);
+    glutAddMenuEntry("Purple", 5);
+    glutAddMenuEntry("Yellow", 6);
+    glutAddMenuEntry("Black", 7);
 
     glutCreateMenu(menu);
     glutAddMenuEntry("Clear", 0);

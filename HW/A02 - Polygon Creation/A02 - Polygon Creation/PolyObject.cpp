@@ -40,30 +40,30 @@ void PolyObject::draw()
 	// determine drawing mode based on number of vertices
 	switch (getVertNum())
 	{
-	case 1:
-		// if polygon contains one vertex, draw a point
-		glBegin(GL_POINTS);
-		glVertex2fv(vec2ToGLFloat(vertices[0]));
-		glEnd();
-		break;
+		case 1:
+			// if polygon contains one vertex, draw a point
+			glBegin(GL_POINTS);
+			glVertex2fv(vec2ToGLFloat(vertices[0]));
+			glEnd();
+			break;
 
-	case 2:
-		// if polygon contains two vertices, draw a line
-		glBegin(GL_LINES);
-		glVertex2fv(vec2ToGLFloat(vertices[0]));
-		glVertex2fv(vec2ToGLFloat(vertices[1]));
-		glEnd();
-		break;
+		case 2:
+			// if polygon contains two vertices, draw a line
+			glBegin(GL_LINES);
+			glVertex2fv(vec2ToGLFloat(vertices[0]));
+			glVertex2fv(vec2ToGLFloat(vertices[1]));
+			glEnd();
+			break;
 
-	default:
-		// if polygon contains 3 or more vertices, draw a polygon
-		glBegin(GL_POLYGON);
-		for (unsigned int i = 0; i < getVertNum(); i++)
-		{
-			glVertex2fv(vec2ToGLFloat(vertices[i]));
-		}
-		glEnd();
-		break;
+		default:
+			// if polygon contains 3 or more vertices, draw a polygon
+			glBegin(GL_POLYGON);
+			for (unsigned int i = 0; i < getVertNum(); i++)
+			{
+				glVertex2fv(vec2ToGLFloat(vertices[i]));
+			}
+			glEnd();
+			break;
 	}
 }
 
@@ -86,7 +86,7 @@ void PolyObject::draw(float* p_mousePos)
 		break;
 
 	default:
-		// if polygon contains 3 or more vertices, draw vertices and mouse position
+		// if polygon contains 2 or more vertices, draw vertices and mouse position
 		glBegin(GL_POLYGON);
 		for (unsigned int i = 0; i < getVertNum(); i++)
 		{
