@@ -4,6 +4,7 @@
 #include <iostream>
 #include <fstream>
 #include <time.h>
+#include <string>
 using namespace std;
 
 MyMesh::MyMesh()
@@ -34,14 +35,74 @@ void MyMesh::load(char* fileName)
 	indices = new unsigned int[100 * 3];
 	vertColors = new float[100 * 3];
 
+	// string to store initial file contents
+	string value;
+
 	ifstream file(fileName);
 
 	if (!file.is_open()) {
 		// Handle error
+		cout << "file not open" << endl;
 	}
 
 	/****************************************/
 	// Write your code below
+
+	// indicates which array to add to based on number
+	// 1 indicates vertices, 2 indicates indices
+	unsigned int activeArrayNum = 1;
+
+	// tracks where in each array we are adding to
+	unsigned int currentVertIndex = 0;
+	unsigned int currentTriIndex = 0;
+
+	// while there are lines in the file,
+	// read each line separated by space
+	while (getline(file, value, ' '))
+	{
+		// print the line contents to console for debugging
+		cout << value << "\n";
+
+		// if character is a v,
+		// switch active array to vertices array
+		if (value == "v")
+		{
+			activeArrayNum = 1;
+
+			// skip to next iteration
+			continue;
+		}
+
+		// if character is an f, 
+		// switch active array to indices array
+		if (value == "f")
+		{
+			activeArrayNum = 2;
+
+			// skip to next iteration
+			continue;
+		}
+
+		switch (activeArrayNum)
+		{
+			case 1:
+				// if vertices array is active,
+				// add value to vertices array
+				vertices[currentVertIndex] = stof(value);	// convert string to float
+
+				break;
+
+			case 2:
+				// if indices array is active,
+				// add value to vertices array
+
+				break;
+		}
+
+	}
+	file.close();
+
+
 
 	// Write your code above
 	/****************************************/
