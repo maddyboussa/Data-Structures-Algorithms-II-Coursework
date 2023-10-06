@@ -35,9 +35,6 @@ void MyMesh::load(char* fileName)
 	indices = new unsigned int[100 * 3];
 	vertColors = new float[100 * 3];
 
-	// string to store initial file contents
-	string value;
-
 	ifstream file(fileName);
 
 	if (!file.is_open()) {
@@ -48,61 +45,39 @@ void MyMesh::load(char* fileName)
 	/****************************************/
 	// Write your code below
 
-	// indicates which array to add to based on number
-	// 1 indicates vertices, 2 indicates indices
-	unsigned int activeArrayNum = 1;
+	// start vert num at one because of indexing
+	vertNum = 1;
 
-	// tracks where in each array we are adding to
-	unsigned int currentVertIndex = 0;
-	unsigned int currentTriIndex = 0;
+	// string to store initial file contents
+	string line;
+	string indicator, value1, value2, value3;
 
-	// while there are lines in the file,
-	// read each line separated by space
-	while (getline(file, value, ' '))
+	while (file >> indicator >> value1 >> value2)
 	{
-		// print the line contents to console for debugging
-		cout << value << "\n";
-
-		// if character is a v,
-		// switch active array to vertices array
-		if (value == "v")
+		// if the line starts with v,
+		// add values to vertices array
+		if (indicator == "v")
 		{
-			activeArrayNum = 1;
+			vertices[vertNum * 2] = stof(value1);
+			vertices[vertNum * 2 + 1] = stof(value2);
 
-			// skip to next iteration
-			continue;
+			// increment number of vertices
+			vertNum += 1;
 		}
 
-		// if character is an f, 
-		// switch active array to indices array
-		if (value == "f")
+		else if (indicator == "f")
 		{
-			activeArrayNum = 2;
+			file >> value3;
+			indices[triNum * 3] = stof(value1);
+			indices[triNum * 3 + 1] = stof(value2);
+			indices[triNum * 3 + 2] = stof(value3);
 
-			// skip to next iteration
-			continue;
-		}
-
-		switch (activeArrayNum)
-		{
-			case 1:
-				// if vertices array is active,
-				// add value to vertices array
-				vertices[currentVertIndex] = stof(value);	// convert string to float
-
-				break;
-
-			case 2:
-				// if indices array is active,
-				// add value to vertices array
-
-				break;
+			// increment number of triangles
+			triNum++;
 		}
 
 	}
 	file.close();
-
-
 
 	// Write your code above
 	/****************************************/
