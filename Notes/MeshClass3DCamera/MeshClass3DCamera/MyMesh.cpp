@@ -209,6 +209,7 @@ void MyMesh::drawShadedMesh()
 	glPolygonOffset(1.0f, 1.0f);
 	glPolygonMode(GL_FRONT, GL_FILL);
 
+	// shading attributes
 	glMaterialfv(GL_FRONT, GL_AMBIENT, value_ptr(amb));
 	glMaterialfv(GL_FRONT, GL_DIFFUSE, value_ptr(diff));
 	glMaterialfv(GL_FRONT, GL_SPECULAR, value_ptr(spec));

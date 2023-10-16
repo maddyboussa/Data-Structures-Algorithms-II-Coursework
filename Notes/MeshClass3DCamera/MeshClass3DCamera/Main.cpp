@@ -100,7 +100,7 @@ void display()
 	// add things you'd like to draw ....
 
 	g_mesh.draw();
-	g_cam.drawCoordinateOnScreen(g_winWidth, g_winHeight);
+	g_cam.drawCoordinateOnScreen(g_winWidth, g_winHeight);	// gizmo handled by camera
 	g_cam.drawCoordinate();
 
 	// display the text
