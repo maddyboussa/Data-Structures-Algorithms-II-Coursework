@@ -11,6 +11,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/gtx/constants.hpp>
+#include <iostream>
 
 #include "MyMesh.h"
 
@@ -86,6 +87,18 @@ void idle()
 
 	/*****************************/
 	// Write your code below
+
+	// update theta based on delta time
+	theta += deltaTime;
+
+	// compute new values for camera x and z
+	cam_x = radius * cos(theta);
+	cam_z = radius * sin(theta);
+
+	// update camera position
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+	gluLookAt(cam_x, cam_y, cam_z, 0, 0, 0, 0, 1, 0);
 
 	// Write your code above
 	/*****************************/
