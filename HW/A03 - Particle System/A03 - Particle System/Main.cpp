@@ -1,3 +1,7 @@
+// Course:			IGME 309
+// Student Name:	Madeline Boussa
+// Assignment Number: 03
+
 #include <GL/glew.h>
 #include <GL/wglew.h>
 
@@ -178,6 +182,8 @@ int main(int argc, char* argv[])
 	glewInit();
 	initialGL();
 	init();
+
+	g_particles.prepareBufObjects();
 
 	// Disable V-Sync, which can otherwise cap the FPS at the monitor's maximum refresh rate.
 	if (wglewIsSupported("WGL_EXT_swap_control")) {

@@ -26,10 +26,15 @@ private:
 	float minSpeedZ = -5.0f;
 	float maxSpeedZ = 5.0f;
 
+	// buffer ids for particle arrays
+	unsigned int pos_id;
+	unsigned int col_id;
+
 public:
 	ParticleSystem(int _numParticles);
 	void update(float deltaTime);
 	void draw();
+	void prepareBufObjects();
 	int getNumParticles() {
 		return numParticles;
 	}

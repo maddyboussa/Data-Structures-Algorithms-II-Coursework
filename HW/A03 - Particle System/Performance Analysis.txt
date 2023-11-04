@@ -1,0 +1,16 @@
+FPS Performance Analysis
+
+Particles: 500
+FPS: 1430
+
+Particles: 5,000
+FPS: 274
+
+Particles: 50,000
+FPS: 30
+
+Particles: 500,000
+FPS: 3
+
+Particles: 5,000,000
+FPS: 1
