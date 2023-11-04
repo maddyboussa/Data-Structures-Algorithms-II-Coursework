@@ -18,10 +18,6 @@ ParticleSystem::ParticleSystem(int _numParticles)
 		// Initialize the life times
 		lifeTimes[i] = maxLifeTime - maxLifeTime * i / numParticles;
 
-		/***************************/
-		// Write your code below
-		// Please add initializations for other arrays as you see appropriate.
-
 		// initialize velocities to a random value within the velocity range
 		velocities[i * 3 + 0] = getRandomValue(minSpeedX, maxSpeedX);	// x
 		velocities[i * 3 + 1] = getRandomValue(minSpeedY, maxSpeedY);	// y
@@ -38,16 +34,13 @@ ParticleSystem::ParticleSystem(int _numParticles)
 		colors[i * 4 + 2] = 1.0f;	// blue
 		colors[i * 4 + 3] = 1.0f;	// alpha
 
-
-		/***************************/
 	}
 }
 
 void ParticleSystem::update(float deltaTime)
 {
 	for (int i = 0; i < numParticles; i++) {
-		/***************************/
-		// Write your code below
+
 		// Update lifetime, velocity, position, and color.
 
 		lifeTimes[i] += deltaTime;
@@ -87,18 +80,13 @@ void ParticleSystem::update(float deltaTime)
 			// reset alpha to 1
 			colors[i * 4 + 3] = 1.0f;	// alpha
 		}
-
-		// Write your code above
-		/***************************/
 	}
 }
 
 void ParticleSystem::draw()
 {
-	/***************************/
-	// Write your code below
-	// Use GL_POINTS for rendering
 
+	// immediate mode drawing
 	// loop through all particles
 	for (unsigned int i = 0; i < numParticles; i++)
 	{
@@ -109,23 +97,22 @@ void ParticleSystem::draw()
 		glEnd();
 	}
 
-	/*glBindBuffer(GL_ARRAY_BUFFER, pos_id);
-	glEnableClientState(GL_VERTEX_ARRAY);
-	glVertexPointer(3, GL_FLOAT, 0, NULL);
+	// VBO mode drawing
+	//glBindBuffer(GL_ARRAY_BUFFER, pos_id);
+	//glEnableClientState(GL_VERTEX_ARRAY);
+	//glVertexPointer(3, GL_FLOAT, 0, NULL);
 
-	glBindBuffer(GL_ARRAY_BUFFER, col_id);
-	glEnableClientState(GL_COLOR_ARRAY);
-	glColorPointer(4, GL_FLOAT, 0, NULL);
-	
-	glDisableClientState(GL_VERTEX_ARRAY);
-	glDisableClientState(GL_COLOR_ARRAY);
+	//glBindBuffer(GL_ARRAY_BUFFER, col_id);
+	//glEnableClientState(GL_COLOR_ARRAY);
+	//glColorPointer(4, GL_FLOAT, 0, NULL);
 
-	glBindBuffer(GL_ARRAY_BUFFER, 0);*/
 
-	
+	//// draw elements
+	//glDrawArrays(GL_POINTS, 0, numParticles);
 
-	// Write your code above
-	/***************************/
+	//
+	//glDisableClientState(GL_VERTEX_ARRAY);
+	//glDisableClientState(GL_COLOR_ARRAY);
 }
 
 void ParticleSystem::prepareBufObjects()
@@ -147,10 +134,6 @@ void ParticleSystem::prepareBufObjects()
 	glBindBuffer(GL_ARRAY_BUFFER, col_id);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * numParticles * 4, colors, GL_STATIC_DRAW);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-	// clean up unnecessary arrays
-	/*delete[] positions;
-	delete[] colors;*/
 }
 
 float ParticleSystem::getRandomValue(float min_value, float max_value)

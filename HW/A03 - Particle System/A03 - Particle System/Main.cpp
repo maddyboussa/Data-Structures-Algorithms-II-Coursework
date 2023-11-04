@@ -25,14 +25,9 @@ Camera g_cam;
 Text g_text;
 unsigned char g_keyStates[256];
 
-/**************************************************/
-
 // Particle system object
 // You can pass different numbers of particles into the constructor of the particle system object
 ParticleSystem g_particles = ParticleSystem(5000);
-
-/*************************************************/
-
 
 // tracking the game time - millisecond 1)
 unsigned int curTime = 0;

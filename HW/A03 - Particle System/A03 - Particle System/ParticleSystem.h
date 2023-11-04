@@ -5,8 +5,6 @@ using namespace std;
 class ParticleSystem
 {
 private:
-	// You can modify any values as needed.
-	// Define new variables and functions if necessary.
 
 	GLfloat* positions;		// holds particle positions in the format (x, y, z).
 	GLfloat* colors;		// holds particle colors in the format (r, g, b, a).
