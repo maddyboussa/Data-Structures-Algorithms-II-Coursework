@@ -78,10 +78,22 @@ void display(void)
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
 
+    // glPushMatrix();
+
     // transform the first quad // (-3, -3) and (3, 3)
     glTranslatef(translations[0], translations[1], 0.0f);
     glRotatef(rotations[0], 0.0f, 0.0f, 1.0f);
     drawQuad(-3, 3, 3, -3, colors);
+
+    // put this here to break dependency
+    // glLoadIdentity();
+    // resets current matrix to identity matrix
+
+    // OR
+
+    // glPopMatrix();
+
+    // pushing then popping after is the same as loading identity
 
     // transform the second quad // (4, -1) and (5, 1)
     glTranslatef(translations[2], translations[3], 0.0f);
