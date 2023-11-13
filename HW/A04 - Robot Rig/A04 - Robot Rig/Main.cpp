@@ -1,3 +1,8 @@
+// Course:			IGME 309
+// Student Name:	Madeline Boussa
+// Assignment Number: 04
+
+
 //Usage:
 //Hold down the number keys , 1-7, to select one or multiple circles.
 //While circle(s) are selected, use the left mouse button to translate and use the right mouse button to rotate.
@@ -11,6 +16,7 @@
 #include <iostream>
 #include <math.h>
 using namespace std;
+
 
 #define MAX_NUM_CIRCLE 7
 #define CIRCLE_RADIUM 2.0
@@ -57,6 +63,20 @@ void drawCircle(float radius, const float* c)
     glEnd();
 }
 
+// draws a rectangle based on a given x and y coordinate of the center, and values given for width and height
+void drawRect(float x, float y, float width, float height, const float* c)
+{
+    glColor3fv(c);
+    glLineWidth(3.0f);
+    glBegin(GL_LINE_STRIP);
+    glVertex2f(x - (width / 2), y - (height / 2));   // top left
+    glVertex2f(x + (width / 2), y - (height / 2));   // top right
+    glVertex2f(x + (width / 2), y + (height / 2));   // bottom right
+    glVertex2f(x - (width / 2), y + (height / 2));   // bottom left
+    glVertex2f(x - (width / 2), y - (height / 2));   // connect to top left
+    glEnd();
+}
+
 void display(void)
 {
     glClearColor(1.0, 1.0, 1.0, 0.0);
@@ -70,44 +90,70 @@ void display(void)
 
     int cid = -1; // the index of current circle
     // circle 0
-    cid = 0;
-    glTranslatef(translations[cid * 2 + 0], translations[cid * 2 + 1], 0.0f);
-    glRotatef(rotations[cid], 0.0f, 0.0f, 1.0f);
-    drawCircle(CIRCLE_RADIUM * (MAX_NUM_CIRCLE - cid) / MAX_NUM_CIRCLE, colors + cid * 3);
+    //cid = 0;
+    //glTranslatef(translations[cid * 2 + 0], translations[cid * 2 + 1], 0.0f);
+    //glRotatef(rotations[cid], 0.0f, 0.0f, 1.0f);
+    //drawCircle(CIRCLE_RADIUM * (MAX_NUM_CIRCLE - cid) / MAX_NUM_CIRCLE, colors + cid * 3);
 
-    // circle 1
-    cid = 1;
-    glTranslatef(translations[cid * 2 + 0], translations[cid * 2 + 1], 0.0f);
-    glRotatef(rotations[cid], 0.0f, 0.0f, 1.0f);
-    glPushMatrix(); // push the circle 1's CS to the modelview stack
-    drawCircle(CIRCLE_RADIUM * (MAX_NUM_CIRCLE - cid) / MAX_NUM_CIRCLE, colors + cid * 3);
+    //// circle 1
+    //cid = 1;
+    //glTranslatef(translations[cid * 2 + 0], translations[cid * 2 + 1], 0.0f);
+    //glRotatef(rotations[cid], 0.0f, 0.0f, 1.0f);
+    //glPushMatrix(); // push the circle 1's CS to the modelview stack
+    //drawCircle(CIRCLE_RADIUM * (MAX_NUM_CIRCLE - cid) / MAX_NUM_CIRCLE, colors + cid * 3);
 
-    // circle 2
-    cid = 2;
-    glTranslatef(translations[cid * 2 + 0], translations[cid * 2 + 1], 0.0f);
-    glRotatef(rotations[cid], 0.0f, 0.0f, 1.0f);
-    drawCircle(CIRCLE_RADIUM * (MAX_NUM_CIRCLE - cid) / MAX_NUM_CIRCLE, colors + cid * 3);
+    //// circle 2
+    //cid = 2;
+    //glTranslatef(translations[cid * 2 + 0], translations[cid * 2 + 1], 0.0f);
+    //glRotatef(rotations[cid], 0.0f, 0.0f, 1.0f);
+    //drawCircle(CIRCLE_RADIUM * (MAX_NUM_CIRCLE - cid) / MAX_NUM_CIRCLE, colors + cid * 3);
 
-    // circle 3
-    cid = 3;
-    glTranslatef(translations[cid * 2 + 0], translations[cid * 2 + 1], 0.0f);
-    glRotatef(rotations[cid], 0.0f, 0.0f, 1.0f);
-    drawCircle(CIRCLE_RADIUM * (MAX_NUM_CIRCLE - cid) / MAX_NUM_CIRCLE, colors + cid * 3);
+    //// circle 3
+    //cid = 3;
+    //glTranslatef(translations[cid * 2 + 0], translations[cid * 2 + 1], 0.0f);
+    //glRotatef(rotations[cid], 0.0f, 0.0f, 1.0f);
+    //drawCircle(CIRCLE_RADIUM * (MAX_NUM_CIRCLE - cid) / MAX_NUM_CIRCLE, colors + cid * 3);
 
 
-    glPopMatrix(); // back to the CS of Circle 1
-    // circle 4
-    cid = 4;
-    glTranslatef(translations[cid * 2 + 0], translations[cid * 2 + 1], 0.0f);
-    glRotatef(rotations[cid], 0.0f, 0.0f, 1.0f);
-    drawCircle(CIRCLE_RADIUM * (MAX_NUM_CIRCLE - cid) / MAX_NUM_CIRCLE, colors + cid * 3);
+    //glPopMatrix(); // back to the CS of Circle 1
+    //// circle 4
+    //cid = 4;
+    //glTranslatef(translations[cid * 2 + 0], translations[cid * 2 + 1], 0.0f);
+    //glRotatef(rotations[cid], 0.0f, 0.0f, 1.0f);
+    //drawCircle(CIRCLE_RADIUM * (MAX_NUM_CIRCLE - cid) / MAX_NUM_CIRCLE, colors + cid * 3);
 
-    // circle 5
-    cid = 5;
-    glTranslatef(translations[cid * 2 + 0], translations[cid * 2 + 1], 0.0f);
-    glRotatef(rotations[cid], 0.0f, 0.0f, 1.0f);
-    drawCircle(CIRCLE_RADIUM * (MAX_NUM_CIRCLE - cid) / MAX_NUM_CIRCLE, colors + cid * 3);
+    //// circle 5
+    //cid = 5;
+    //glTranslatef(translations[cid * 2 + 0], translations[cid * 2 + 1], 0.0f);
+    //glRotatef(rotations[cid], 0.0f, 0.0f, 1.0f);
+    //drawCircle(CIRCLE_RADIUM * (MAX_NUM_CIRCLE - cid) / MAX_NUM_CIRCLE, colors + cid * 3);
 
+
+    // robot
+    
+    // torso
+
+    // lower torso
+    drawRect(0, 0, 3, 2, colors + cid * 3);
+    // upper torso
+    drawRect(0, 3, 3.5, 3, colors + cid * 3);
+
+    // legs
+
+    // left thigh
+    drawRect(-1, -2.5, 1, 2, colors + cid * 3);
+    // right thigh
+    drawRect(1, -2.5, 1, 2, colors + cid * 3);
+    // left leg
+    drawRect(-1, -5, 1, 2, colors + cid * 3);
+    // right leg
+    drawRect(1, -5, 1, 2, colors + cid * 3);
+
+    // feet
+
+    // arms
+
+    // head
 
     glutSwapBuffers();
 }
