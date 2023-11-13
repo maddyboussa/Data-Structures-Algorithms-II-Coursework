@@ -18,8 +18,10 @@
 using namespace std;
 
 
-#define MAX_NUM_CIRCLE 7
-#define CIRCLE_RADIUM 2.0
+#define MAX_NUM_JOINTS 16
+
+//#define MAX_NUM_CIRCLE 7
+//#define CIRCLE_RADIUM 2.0
 
 int win_width = 600, win_height = 600;
 float canvas_width = 20.0f; float canvas_height = 20.0f;
@@ -27,19 +29,22 @@ float canvas_width = 20.0f; float canvas_height = 20.0f;
 
 bool keyStates[256];
 int buttonState;
-float colors[3 * MAX_NUM_CIRCLE];
-float translations[2 * MAX_NUM_CIRCLE];
-float rotations[MAX_NUM_CIRCLE];
+float colors[3 * MAX_NUM_JOINTS];
+float translations[2 * MAX_NUM_JOINTS];
+float rotations[MAX_NUM_JOINTS];
 
 float curMouse[2];
 float preMouse[2];
+
+int activeID = 15; // start activeID at the lower torso (has an id of 6)
+
 
 void init(void)
 {
     for (int i = 0; i < 256; i++) {
         keyStates[i] = false;
     }
-    for (int i = 0; i < MAX_NUM_CIRCLE; i++) {
+    for (int i = 0; i < MAX_NUM_JOINTS; i++) {
         colors[i * 3 + 0] = 0.0f; // red
         colors[i * 3 + 1] = 0.0f; // green
         colors[i * 3 + 2] = 0.0f; // blue
@@ -77,6 +82,36 @@ void drawRect(float x, float y, float width, float height, const float* c)
     glEnd();
 }
 
+// increments current joint and checks for out of bounds
+//void incrementJointIndex()
+//{
+//    cout << jid << endl;
+//    if (jid += 1 > MAX_NUM_JOINTS - 1)
+//    {
+//        jid = 15; // greatest possible joint index
+//        
+//    }
+//    else
+//    {
+//        jid++;
+//    }
+//    cout << jid << endl;
+//}
+//
+//// decrement current joint and check for out of bounds
+//void decrementJointIndex()
+//{
+//    if (jid -= 1 < 0)
+//    {
+//        jid = 0; // smallest possible joint index
+//    }
+//    else
+//    {
+//        jid--;
+//    }
+//}
+
+
 void display(void)
 {
     glClearColor(1.0, 1.0, 1.0, 0.0);
@@ -88,9 +123,9 @@ void display(void)
     // the following codes could be written in a for loop.
     // Here I expand them so that you can better trace the changes of cirlce's coordinate system.
 
-    int cid = -1; // the index of current circle
+    
     // circle 0
-    //cid = 0;
+    //int cid = 0;
     //glTranslatef(translations[cid * 2 + 0], translations[cid * 2 + 1], 0.0f);
     //glRotatef(rotations[cid], 0.0f, 0.0f, 1.0f);
     //drawCircle(CIRCLE_RADIUM * (MAX_NUM_CIRCLE - cid) / MAX_NUM_CIRCLE, colors + cid * 3);
@@ -129,31 +164,91 @@ void display(void)
     //drawCircle(CIRCLE_RADIUM * (MAX_NUM_CIRCLE - cid) / MAX_NUM_CIRCLE, colors + cid * 3);
 
 
-    // robot
-    
-    // torso
+    //// robot
+    //
+    //// the index of current joint
+    //int jid;
 
-    // lower torso
-    drawRect(0, 0, 3, 2, colors + cid * 3);
-    // upper torso
-    drawRect(0, 3, 3.5, 3, colors + cid * 3);
+    //// _____ torso _____
 
-    // legs
+    //// lower torso
+    //jid = 6;
+    //
+    //glRotatef(rotations[jid], 0.0f, 0.0f, 1.0f);
+    //drawRect(0, 0, 3, 2, colors + jid * 3);
+    //// upper torso
+    //jid = 7;
+    //glRotatef(rotations[jid], 0.0f, 0.0f, 1.0f);
+    //drawRect(0, 3, 3.5, 3, colors + jid * 3);
 
-    // left thigh
-    drawRect(-1, -2.5, 1, 2, colors + cid * 3);
-    // right thigh
-    drawRect(1, -2.5, 1, 2, colors + cid * 3);
-    // left leg
-    drawRect(-1, -5, 1, 2, colors + cid * 3);
-    // right leg
-    drawRect(1, -5, 1, 2, colors + cid * 3);
+    //// _____ legs _____
 
-    // feet
+    //// left thigh
+    //jid = 5;
+    //glRotatef(rotations[jid], 0.0f, 0.0f, 1.0f);
+    //drawRect(-1, -2.5, 1, 2, colors + jid * 3);
+    //// right thigh
+    //jid = 2;
+    //glRotatef(rotations[jid], 0.0f, 0.0f, 1.0f);
+    //drawRect(1, -2.5, 1, 2, colors + jid * 3);
+    //// left leg
+    //jid = 4;
+    //glRotatef(rotations[jid], 0.0f, 0.0f, 1.0f);
+    //drawRect(-1, -5, 1, 2, colors + jid * 3);
+    //// right leg
+    //jid = 1;
+    //glRotatef(rotations[jid], 0.0f, 0.0f, 1.0f);
+    //drawRect(1, -5, 1, 2, colors + jid * 3);
 
-    // arms
+    //// _____ feet _____
+    //// left foot
+    //jid = 3;
+    //glRotatef(rotations[jid], 0.0f, 0.0f, 1.0f);
+    //drawRect(1.5, -7, 2, 1, colors + jid * 3);
+    //// right foot
+    //jid = 0;
+    //glRotatef(rotations[jid], 0.0f, 0.0f, 1.0f);
+    //drawRect(-1.5, -7, 2, 1, colors + jid * 3);
 
-    // head
+    //// _____ arms _____
+
+    //// left arm
+    //jid = 8;
+    //glRotatef(rotations[jid], 0.0f, 0.0f, 1.0f);
+    //drawRect(-3.25, 4, 2, 1, colors + jid * 3);
+    //// right arm
+    //jid = 11;
+    //glRotatef(rotations[jid], 0.0f, 0.0f, 1.0f);
+    //drawRect(3.25, 4, 2, 1, colors + jid * 3);
+    //// left forearm
+    //jid = 9;
+    //glRotatef(rotations[jid], 0.0f, 0.0f, 1.0f);
+    //drawRect(-5.75, 4, 2, 1, colors + jid * 3);
+    //// right forearm
+    //jid = 12;
+    //glRotatef(rotations[jid], 0.0f, 0.0f, 1.0f);
+    //drawRect(5.75, 4, 2, 1, colors + jid * 3);
+    //// left hand
+    //jid = 10;
+    //glRotatef(rotations[jid], 0.0f, 0.0f, 1.0f);
+    //drawRect(-7.75, 4, 1, 1, colors + jid * 3);
+    //// right hand
+    //jid = 13;
+    //glRotatef(rotations[jid], 0.0f, 0.0f, 1.0f);
+    //drawRect(7.75, 4, 1, 1, colors + jid * 3);
+
+    //// _____ head _____
+
+    //// neck
+    //jid = 14;
+    //glRotatef(rotations[jid], 0.0f, 0.0f, 1.0f);
+    //drawRect(0, 5.5, 1, 1, colors + jid * 3);
+    //// head
+    //jid = 15;
+    ////glTranslatef(0, 7.5, 1);
+    //glRotatef(rotations[jid], 0.0f, 0.0f, 1.0f);
+    ////glTranslatef(0, 0, 1);
+    //drawRect(0, 7.5, 2.25, 2.25, colors + jid * 3);
 
     glutSwapBuffers();
 }
@@ -177,15 +272,47 @@ void keyboard(unsigned char key, int x, int y)
     if (key == 27) // 'esc' key
         exit(0);
 
-    unsigned char asciiOffset = 49; // see an ascii table
-    for (unsigned char i = '1'; i < '7'; i++) {
-        if (key == i) {
-            keyStates[i] = true;
-            colors[(i - asciiOffset) * 3 + 0] = 1.0f;
-            colors[(i - asciiOffset) * 3 + 1] = 0.0f;
-            colors[(i - asciiOffset) * 3 + 2] = 0.0f;
-        }
+    //unsigned char asciiOffset = 49; // see an ascii table
+    //for (unsigned char i = '1'; i < '7'; i++) {
+    //    if (key == i) {
+    //        keyStates[i] = true;
+    //        colors[(i - asciiOffset) * 3 + 0] = 1.0f;
+    //        colors[(i - asciiOffset) * 3 + 1] = 0.0f;
+    //        colors[(i - asciiOffset) * 3 + 2] = 0.0f;
+    //    }
+    //}
+
+    // rotate based on keyboard press
+    // if a key is pressed, increment rotation by 1
+    if (key == 97 || key == 65)
+    {
+        rotations[activeID] += 1;
     }
+    // if d key is pressed, decrement rotation by 1
+    if (key == 100 || key == 68)
+    {
+        rotations[activeID] -= 1;
+    }
+
+    cout << activeID << endl;
+
+    // alter selection based on keyboard press
+    // if w key is pressed, increment current joint index by 1
+    //if (key == 119 || key == 87)
+    //{
+    //    // increment selected joint
+    //    incrementJointIndex();
+
+    //    // change joint color to red
+    //    colors[jid * 3 + 0] = 1.0f;
+    //    colors[jid * 3 + 1] = 0.0f;
+    //    colors[jid * 3 + 2] = 0.0f;
+    //    
+    //    cout << "w" << endl;
+    //    cout << jid << endl;
+    //}
+
+    
     glutPostRedisplay();
 }
 
@@ -200,6 +327,7 @@ void keyboardUp(unsigned char key, int x, int y)
             colors[(i - asciiOffset) * 3 + 2] = 0.0f;
         }
     }
+
     glutPostRedisplay();
 }
 
