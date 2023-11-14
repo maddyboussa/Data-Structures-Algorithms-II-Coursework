@@ -36,7 +36,7 @@ float rotations[MAX_NUM_JOINTS];
 float curMouse[2];
 float preMouse[2];
 
-int activeID = 15; // start activeID at the lower torso (has an id of 6)
+int activeID = 14; // start activeID at the lower torso (has an id of 6)
 
 
 void init(void)
@@ -58,16 +58,6 @@ void init(void)
     buttonState = -1;
 }
 
-void drawCircle(float radius, const float* c)
-{
-    glColor3fv(c);
-    glLineWidth(3.0f);
-    glBegin(GL_LINE_STRIP);
-    for (int i = 0; i <= 100; i++)
-        glVertex2f(radius * cosf(3.14 * 2 / 100 * i), radius * sinf(3.14 * 2 / 100 * i));
-    glEnd();
-}
-
 // draws a rectangle based on a given x and y coordinate of the center, and values given for width and height
 void drawRect(float x, float y, float width, float height, const float* c)
 {
@@ -82,36 +72,6 @@ void drawRect(float x, float y, float width, float height, const float* c)
     glEnd();
 }
 
-// increments current joint and checks for out of bounds
-//void incrementJointIndex()
-//{
-//    cout << jid << endl;
-//    if (jid += 1 > MAX_NUM_JOINTS - 1)
-//    {
-//        jid = 15; // greatest possible joint index
-//        
-//    }
-//    else
-//    {
-//        jid++;
-//    }
-//    cout << jid << endl;
-//}
-//
-//// decrement current joint and check for out of bounds
-//void decrementJointIndex()
-//{
-//    if (jid -= 1 < 0)
-//    {
-//        jid = 0; // smallest possible joint index
-//    }
-//    else
-//    {
-//        jid--;
-//    }
-//}
-
-
 void display(void)
 {
     glClearColor(1.0, 1.0, 1.0, 0.0);
@@ -120,135 +80,121 @@ void display(void)
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
 
-    // the following codes could be written in a for loop.
-    // Here I expand them so that you can better trace the changes of cirlce's coordinate system.
-
+    // draw robot
     
-    // circle 0
-    //int cid = 0;
-    //glTranslatef(translations[cid * 2 + 0], translations[cid * 2 + 1], 0.0f);
-    //glRotatef(rotations[cid], 0.0f, 0.0f, 1.0f);
-    //drawCircle(CIRCLE_RADIUM * (MAX_NUM_CIRCLE - cid) / MAX_NUM_CIRCLE, colors + cid * 3);
+    // the index of current joint
+    int jid;
 
-    //// circle 1
-    //cid = 1;
-    //glTranslatef(translations[cid * 2 + 0], translations[cid * 2 + 1], 0.0f);
-    //glRotatef(rotations[cid], 0.0f, 0.0f, 1.0f);
-    //glPushMatrix(); // push the circle 1's CS to the modelview stack
-    //drawCircle(CIRCLE_RADIUM * (MAX_NUM_CIRCLE - cid) / MAX_NUM_CIRCLE, colors + cid * 3);
+    // _____ lower body _____
 
-    //// circle 2
-    //cid = 2;
-    //glTranslatef(translations[cid * 2 + 0], translations[cid * 2 + 1], 0.0f);
-    //glRotatef(rotations[cid], 0.0f, 0.0f, 1.0f);
-    //drawCircle(CIRCLE_RADIUM * (MAX_NUM_CIRCLE - cid) / MAX_NUM_CIRCLE, colors + cid * 3);
+    // lower torso
+    jid = 6;
+    
+    glRotatef(rotations[jid], 0.0f, 0.0f, 1.0f);
 
-    //// circle 3
-    //cid = 3;
-    //glTranslatef(translations[cid * 2 + 0], translations[cid * 2 + 1], 0.0f);
-    //glRotatef(rotations[cid], 0.0f, 0.0f, 1.0f);
-    //drawCircle(CIRCLE_RADIUM * (MAX_NUM_CIRCLE - cid) / MAX_NUM_CIRCLE, colors + cid * 3);
+    glPushMatrix();
+
+    drawRect(0, 0, 3, 2, colors + jid * 3);
+
+    // _____ left leg _____
 
 
-    //glPopMatrix(); // back to the CS of Circle 1
-    //// circle 4
-    //cid = 4;
-    //glTranslatef(translations[cid * 2 + 0], translations[cid * 2 + 1], 0.0f);
-    //glRotatef(rotations[cid], 0.0f, 0.0f, 1.0f);
-    //drawCircle(CIRCLE_RADIUM * (MAX_NUM_CIRCLE - cid) / MAX_NUM_CIRCLE, colors + cid * 3);
+    // left thigh
+    jid = 5;
+    glRotatef(rotations[jid], 0.0f, 0.0f, 1.0f);
 
-    //// circle 5
-    //cid = 5;
-    //glTranslatef(translations[cid * 2 + 0], translations[cid * 2 + 1], 0.0f);
-    //glRotatef(rotations[cid], 0.0f, 0.0f, 1.0f);
-    //drawCircle(CIRCLE_RADIUM * (MAX_NUM_CIRCLE - cid) / MAX_NUM_CIRCLE, colors + cid * 3);
+    drawRect(-1, -2.5, 1, 2, colors + jid * 3);
 
+    // left leg
+    jid = 4;
+    glRotatef(rotations[jid], 0.0f, 0.0f, 1.0f);
 
-    //// robot
-    //
-    //// the index of current joint
-    //int jid;
+    drawRect(-1, -5, 1, 2, colors + jid * 3);
 
-    //// _____ torso _____
+    // left foot
+    jid = 3;
+    glRotatef(rotations[jid], 0.0f, 0.0f, 1.0f);
+    drawRect(-1.5, -7, 2, 1, colors + jid * 3);
 
-    //// lower torso
-    //jid = 6;
-    //
-    //glRotatef(rotations[jid], 0.0f, 0.0f, 1.0f);
-    //drawRect(0, 0, 3, 2, colors + jid * 3);
-    //// upper torso
-    //jid = 7;
-    //glRotatef(rotations[jid], 0.0f, 0.0f, 1.0f);
-    //drawRect(0, 3, 3.5, 3, colors + jid * 3);
+    // _____ right leg _____
 
-    //// _____ legs _____
+    glPopMatrix();
 
-    //// left thigh
-    //jid = 5;
-    //glRotatef(rotations[jid], 0.0f, 0.0f, 1.0f);
-    //drawRect(-1, -2.5, 1, 2, colors + jid * 3);
-    //// right thigh
-    //jid = 2;
-    //glRotatef(rotations[jid], 0.0f, 0.0f, 1.0f);
-    //drawRect(1, -2.5, 1, 2, colors + jid * 3);
-    //// left leg
-    //jid = 4;
-    //glRotatef(rotations[jid], 0.0f, 0.0f, 1.0f);
-    //drawRect(-1, -5, 1, 2, colors + jid * 3);
-    //// right leg
-    //jid = 1;
-    //glRotatef(rotations[jid], 0.0f, 0.0f, 1.0f);
-    //drawRect(1, -5, 1, 2, colors + jid * 3);
+    // right thigh
+    jid = 2;
+    glRotatef(rotations[jid], 0.0f, 0.0f, 1.0f);
 
-    //// _____ feet _____
-    //// left foot
-    //jid = 3;
-    //glRotatef(rotations[jid], 0.0f, 0.0f, 1.0f);
-    //drawRect(1.5, -7, 2, 1, colors + jid * 3);
-    //// right foot
-    //jid = 0;
-    //glRotatef(rotations[jid], 0.0f, 0.0f, 1.0f);
-    //drawRect(-1.5, -7, 2, 1, colors + jid * 3);
+    drawRect(1, -2.5, 1, 2, colors + jid * 3);
 
-    //// _____ arms _____
+    // right leg
+    jid = 1;
+    glRotatef(rotations[jid], 0.0f, 0.0f, 1.0f);
+    drawRect(1, -5, 1, 2, colors + jid * 3);
+    
+    // right foot
+    jid = 0;
+    glRotatef(rotations[jid], 0.0f, 0.0f, 1.0f);
+    drawRect(1.5, -7, 2, 1, colors + jid * 3);
 
-    //// left arm
-    //jid = 8;
-    //glRotatef(rotations[jid], 0.0f, 0.0f, 1.0f);
-    //drawRect(-3.25, 4, 2, 1, colors + jid * 3);
-    //// right arm
-    //jid = 11;
-    //glRotatef(rotations[jid], 0.0f, 0.0f, 1.0f);
-    //drawRect(3.25, 4, 2, 1, colors + jid * 3);
-    //// left forearm
-    //jid = 9;
-    //glRotatef(rotations[jid], 0.0f, 0.0f, 1.0f);
-    //drawRect(-5.75, 4, 2, 1, colors + jid * 3);
-    //// right forearm
-    //jid = 12;
-    //glRotatef(rotations[jid], 0.0f, 0.0f, 1.0f);
-    //drawRect(5.75, 4, 2, 1, colors + jid * 3);
-    //// left hand
-    //jid = 10;
-    //glRotatef(rotations[jid], 0.0f, 0.0f, 1.0f);
-    //drawRect(-7.75, 4, 1, 1, colors + jid * 3);
-    //// right hand
-    //jid = 13;
-    //glRotatef(rotations[jid], 0.0f, 0.0f, 1.0f);
-    //drawRect(7.75, 4, 1, 1, colors + jid * 3);
+    // _____ upper torso _____
 
-    //// _____ head _____
+    // upper torso
+    jid = 7;
+    glRotatef(rotations[jid], 0.0f, 0.0f, 1.0f);
 
-    //// neck
-    //jid = 14;
-    //glRotatef(rotations[jid], 0.0f, 0.0f, 1.0f);
-    //drawRect(0, 5.5, 1, 1, colors + jid * 3);
-    //// head
-    //jid = 15;
-    ////glTranslatef(0, 7.5, 1);
-    //glRotatef(rotations[jid], 0.0f, 0.0f, 1.0f);
-    ////glTranslatef(0, 0, 1);
-    //drawRect(0, 7.5, 2.25, 2.25, colors + jid * 3);
+    glPushMatrix();
+
+    drawRect(0, 3, 3.5, 3, colors + jid * 3);
+
+    // _____ left arm _____
+
+    // left arm
+    jid = 8;
+    glRotatef(rotations[jid], 0.0f, 0.0f, 1.0f);
+    drawRect(-3.25, 4, 2, 1, colors + jid * 3);
+
+    // left forearm
+    jid = 9;
+    glRotatef(rotations[jid], 0.0f, 0.0f, 1.0f);
+    drawRect(-5.75, 4, 2, 1, colors + jid * 3);
+
+    // left hand
+    jid = 10;
+    glRotatef(rotations[jid], 0.0f, 0.0f, 1.0f);
+    drawRect(-7.75, 4, 1, 1, colors + jid * 3);
+
+    // _____ right arm _____
+
+    glPopMatrix();
+
+    // right arm
+    jid = 11;
+    glRotatef(rotations[jid], 0.0f, 0.0f, 1.0f);
+    drawRect(3.25, 4, 2, 1, colors + jid * 3);
+    
+    // right forearm
+    jid = 12;
+    glRotatef(rotations[jid], 0.0f, 0.0f, 1.0f);
+    drawRect(5.75, 4, 2, 1, colors + jid * 3);
+   
+    // right hand
+    jid = 13;
+    glRotatef(rotations[jid], 0.0f, 0.0f, 1.0f);
+    drawRect(7.75, 4, 1, 1, colors + jid * 3);
+
+    // _____ head _____
+
+    // neck
+    jid = 14;
+    glRotatef(rotations[jid], 0.0f, 0.0f, 1.0f);
+    drawRect(0, 5.5, 1, 1, colors + jid * 3);
+
+    // head
+    jid = 15;
+    //glTranslatef(0, 7.5, 1);
+    glRotatef(rotations[jid], 0.0f, 0.0f, 1.0f);
+    //glTranslatef(0, 0, 1);
+    drawRect(0, 7.5, 2.25, 2.25, colors + jid * 3);
 
     glutSwapBuffers();
 }
@@ -318,22 +264,22 @@ void keyboard(unsigned char key, int x, int y)
 
 void keyboardUp(unsigned char key, int x, int y)
 {
-    unsigned char asciiOffset = 49; // see an ascii table
-    for (unsigned char i = '1'; i < '7'; i++) {
-        if (key == i) {
-            keyStates[i] = false;
-            colors[(i - asciiOffset) * 3 + 0] = 0.0f;
-            colors[(i - asciiOffset) * 3 + 1] = 0.0f;
-            colors[(i - asciiOffset) * 3 + 2] = 0.0f;
-        }
-    }
+    //unsigned char asciiOffset = 49; // see an ascii table
+    //for (unsigned char i = '1'; i < '7'; i++) {
+    //    if (key == i) {
+    //        keyStates[i] = false;
+    //        colors[(i - asciiOffset) * 3 + 0] = 0.0f;
+    //        colors[(i - asciiOffset) * 3 + 1] = 0.0f;
+    //        colors[(i - asciiOffset) * 3 + 2] = 0.0f;
+    //    }
+    //}
 
     glutPostRedisplay();
 }
 
 void mouse(int button, int state, int x, int y)
 {
-    if (state == GLUT_DOWN) {
+    /*if (state == GLUT_DOWN) {
         buttonState = button;
         curMouse[0] = ((float)x / win_width - 0.5f) * canvas_width;
         curMouse[1] = ((float)(win_height - y) - 0.5f) / win_height * canvas_height;
@@ -341,37 +287,37 @@ void mouse(int button, int state, int x, int y)
         preMouse[1] = ((float)(win_height - y) - 0.5f) / win_height * canvas_height;
     }
     else if (state == GLUT_UP)
-        button = -1;
+        button = -1;*/
 }
 
 void motion(int x, int y)
 {
-    unsigned char asciiOffset = 49; // see an ascii table
+    //unsigned char asciiOffset = 49; // see an ascii table
 
-    curMouse[0] = ((float)x / win_width - 0.5f) * canvas_width;
-    curMouse[1] = ((float)(win_height - y) - 0.5f) / win_height * canvas_height;
+    //curMouse[0] = ((float)x / win_width - 0.5f) * canvas_width;
+    //curMouse[1] = ((float)(win_height - y) - 0.5f) / win_height * canvas_height;
 
-    if (buttonState == GLUT_LEFT_BUTTON) {
-        for (unsigned char i = '1'; i < '7'; i++) {
-            if (keyStates[i]) {
-                translations[(i - asciiOffset) * 2 + 0] += curMouse[0] - preMouse[0];
-                translations[(i - asciiOffset) * 2 + 1] += curMouse[1] - preMouse[1];
-            }
-        }
-        glutPostRedisplay();
-    }
+    //if (buttonState == GLUT_LEFT_BUTTON) {
+    //    for (unsigned char i = '1'; i < '7'; i++) {
+    //        if (keyStates[i]) {
+    //            translations[(i - asciiOffset) * 2 + 0] += curMouse[0] - preMouse[0];
+    //            translations[(i - asciiOffset) * 2 + 1] += curMouse[1] - preMouse[1];
+    //        }
+    //    }
+    //    glutPostRedisplay();
+    //}
 
-    else if (buttonState == GLUT_RIGHT_BUTTON) {
-        for (unsigned char i = '1'; i < '7'; i++) {
-            if (keyStates[i]) {
-                rotations[i - asciiOffset] += curMouse[0] - preMouse[0];
-            }
-        }
-        glutPostRedisplay();
-    }
+    //else if (buttonState == GLUT_RIGHT_BUTTON) {
+    //    for (unsigned char i = '1'; i < '7'; i++) {
+    //        if (keyStates[i]) {
+    //            rotations[i - asciiOffset] += curMouse[0] - preMouse[0];
+    //        }
+    //    }
+    //    glutPostRedisplay();
+    //}
 
-    preMouse[0] = curMouse[0];
-    preMouse[1] = curMouse[1];
+    //preMouse[0] = curMouse[0];
+    //preMouse[1] = curMouse[1];
 
 }
 

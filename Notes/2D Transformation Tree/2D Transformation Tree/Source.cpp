@@ -95,7 +95,7 @@ void display(void)
     drawCircle(CIRCLE_RADIUM * (MAX_NUM_CIRCLE - cid) / MAX_NUM_CIRCLE, colors + cid * 3);
 
 
-    //glPopMatrix(); // back to the CS of Circle 1
+    glPopMatrix(); // back to the CS of Circle 1
     // circle 4
     cid = 4;
     glTranslatef(translations[cid * 2 + 0], translations[cid * 2 + 1], 0.0f);
