@@ -136,6 +136,9 @@ void MyMesh::loadFromOBJ(const char* fileName)
 		//cout << "v[" << i<<"]'s normal=" << vNormals[i * 3 + 0] << "," << vNormals[i * 3 + 1] << "," << vNormals[i * 3 + 2] << endl;
 	}
 
+	// compute AABB bounds
+	computeAABB();
+
 	prepareBufferObjects();
 }
 
@@ -195,6 +198,55 @@ void MyMesh::draw()
 		break;
 	}
 
+	glPopMatrix();
+}
+
+void MyMesh::drawAABB()
+{
+	glDisable(GL_LIGHTING);
+	glMatrixMode(GL_MODELVIEW);
+	glPushMatrix();
+	glColor3f(1.0f, 0.0f, 0.0f);
+	glBegin(GL_LINES);
+	
+	glVertex3f(minVert[0], maxVert[1], maxVert[2]);
+	glVertex3f(minVert[0], minVert[1], maxVert[2]);
+
+	glVertex3f(minVert[0], minVert[1], maxVert[2]);
+	glVertex3f(maxVert[0], minVert[1], maxVert[2]);
+
+	glVertex3f(maxVert[0], minVert[1], maxVert[2]);
+	glVertex3f(maxVert[0], maxVert[1], maxVert[2]);
+
+	glVertex3f(maxVert[0], maxVert[1], maxVert[2]);
+	glVertex3f(minVert[0], maxVert[1], maxVert[2]);
+
+	glVertex3f(minVert[0], maxVert[1], maxVert[2]);
+	glVertex3f(minVert[0], maxVert[1], minVert[2]);
+
+	glVertex3f(minVert[0], minVert[1], maxVert[2]);
+	glVertex3f(minVert[0], minVert[1], minVert[2]);
+
+	glVertex3f(maxVert[0], maxVert[1], maxVert[2]);
+	glVertex3f(maxVert[0], maxVert[1], minVert[2]);
+
+	glVertex3f(maxVert[0], minVert[1], maxVert[2]);
+	glVertex3f(maxVert[0], minVert[1], minVert[2]);
+
+
+	glVertex3f(minVert[0], maxVert[1], minVert[2]);
+	glVertex3f(minVert[0], minVert[1], minVert[2]);
+
+	glVertex3f(maxVert[0], minVert[1], minVert[2]);
+	glVertex3f(maxVert[0], maxVert[1], minVert[2]);
+
+	glVertex3f(minVert[0], maxVert[1], minVert[2]);
+	glVertex3f(maxVert[0], maxVert[1], minVert[2]);
+
+	glVertex3f(minVert[0], minVert[1], minVert[2]);
+	glVertex3f(maxVert[0], minVert[1], minVert[2]);
+
+	glEnd();
 	glPopMatrix();
 }
 
@@ -269,5 +321,47 @@ void MyMesh::drawWireframeMesh()
 
 void MyMesh::computeAABB()
 {
+	// initialize max and min vectors to the first vertex values
+	maxVert = { vertices[0], vertices[1], vertices[2] };
+	minVert = { vertices[0], vertices[1], vertices[2] };
 
+	// loop through all vertices to store the max and min values
+	for (unsigned int i = 0; i < vertNum; i++)
+	{
+		// check for max x
+		if (vertices[i * 3 + 0] >= maxVert[0])
+		{
+			maxVert[0] = vertices[i * 3 + 0];
+		}
+
+		// check for max y
+		if (vertices[i * 3 + 1] >= maxVert[1])
+		{
+			maxVert[1] = vertices[i * 3 + 1];
+		}
+
+		// check for max z
+		if (vertices[i * 3 + 2] >= maxVert[2])
+		{
+			maxVert[2] = vertices[i * 3 + 2];
+		}
+
+		// check for min x
+		if (vertices[i * 3 + 0] <= minVert[0])
+		{
+			minVert[0] = vertices[i * 3 + 0];
+		}
+
+		// check for min y
+		if (vertices[i * 3 + 1] <= minVert[1])
+		{
+			minVert[1] = vertices[i * 3 + 1];
+		}
+
+		// check for min z
+		if (vertices[i * 3 + 2] <= minVert[2])
+		{
+			minVert[2] = vertices[i * 3 + 2];
+		}
+	}	cout << "max: " << maxVert[0] << " " << maxVert[1] << " " << maxVert[2] << endl;	cout << "min: " << minVert[0] << " " << minVert[1] << " " << minVert[2] << endl;
 }

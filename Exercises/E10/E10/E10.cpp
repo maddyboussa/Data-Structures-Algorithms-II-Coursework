@@ -117,6 +117,8 @@ void display()
 	sprintf_s(s, "vNum:%d, tNum:%d", g_mesh.getVertNum(), g_mesh.getTriNum());
 	g_text.draw(10, 50, s, g_winWidth, g_winHeight);
 
+	// draw AABB
+	g_mesh.drawAABB();
 
 	glutSwapBuffers();
 }

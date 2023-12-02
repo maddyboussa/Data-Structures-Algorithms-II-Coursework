@@ -63,6 +63,8 @@ public:
 	void update();   // usually called in idle, mouse, motion, keyboard callbacks
 	void draw();     // called in display callback;
 
+	void drawAABB();
+
 	unsigned int getVertNum() { return vertNum; };
 	unsigned int getTriNum() { return triNum; };
 	vec3 getAmbient() { return amb; };
