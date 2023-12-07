@@ -9,22 +9,22 @@ MyHunter::MyHunter(vec2 _position, int _ID)
 	// customize your player
 
 	// customize the name of your player
-	playerName = "hunter" + to_string(ID);
+	playerName = "hxh_" + to_string(ID);
 
 	// upgrade your player by calling the upgrade(armor, speed, shotgun, bullet) function
 	// You have a total of 20 points for upgrading, 
 	// and each attribute (armor, speed, shotgun, and bullet) can’t exceed 10 points. 
 	unsigned int armorPoint = 0;
-	unsigned int speedPoint = 0;
-	unsigned int shotgunPoint = 0;
-	unsigned int bulletPoint = 0;
+	unsigned int speedPoint = 10;
+	unsigned int shotgunPoint = 5;
+	unsigned int bulletPoint = 5;
 	upgrade(armorPoint, speedPoint, shotgunPoint, bulletPoint);
 
 	// customize the color of your player
-	bodyColor = vec3(1.0f, 0.0f, 0.0f);
-	headColor = vec3(0.7f, 0.1f, 0.1f);
-	shotgunColor = vec3(0.0f, 0.0f, 0.0f);
-	bulletColor = vec3(0.0f, 0.0f, 0.0f);
+	bodyColor = vec3(1.0f, 0.0f, 1.0f);
+	headColor = vec3(0.0f, 0.0f, 0.0f);
+	shotgunColor = vec3(0.0f, 1.0f, 0.9f);
+	bulletColor = vec3(1.0f, 0.0f, 0.0f);
 	// write your code above
 	/******************************/
 
@@ -35,6 +35,8 @@ MyHunter::MyHunter(vec2 _position, int _ID)
 
 void MyHunter::update(float _deltaTime, const vector<Monster*> _monsters, const vector<Hunter*> _players)
 {
+	vec2 monsterLocation;
+
 	if (isActived == true) {
 		// shoot bullet
 		reloadTimer -= _deltaTime;
@@ -60,8 +62,20 @@ void MyHunter::update(float _deltaTime, const vector<Monster*> _monsters, const 
 			if (dist < minDis - 10.0f) {
 				minDis = dist;
 				nearestMonster = _monsters[i];
+
+				// store location of nearest monster
+				monsterLocation = nearestMonster->position;
 			}
 		}
+
+		// update hunter location to flee nearest monster
+		vec2 desiredVelocity = position - monsterLocation;
+		desiredVelocity = normalize(desiredVelocity) * speed;
+		position.x += desiredVelocity.x * _deltaTime;
+		position.y += desiredVelocity.y * _deltaTime;
+
+		// update hunter rotation
+		rotation = degrees(atan(monsterLocation.y - position.y, monsterLocation.x - position.x));
 
 		// Write your implementation above
 		/************************************************************/
@@ -82,6 +96,12 @@ bool MyHunter::circleCollision(vec2 c1, vec2 c2, float r1, float r2)
 {
 	/***************************************/
 	// return whether or not two circles are intersected
+
+	// if the distance between the 2 center points is less and or equal to the sum of the radii, a collision has occured
+	if ( distance(c1, c2) <= r1 + r2)
+	{
+		return true;
+	}
 	return false;
 	/***************************************/
 }
